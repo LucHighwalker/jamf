@@ -47,3 +47,14 @@ func CopyDir(src, dst string) error {
 	}
 	return nil
 }
+
+// Ensures the given directory exists, otherwise creates it.
+// https://siongui.github.io/2017/03/28/go-create-directory-if-not-exist/
+func EnsureDirExists(dir string) {
+	if _, err := os.Stat(dir); os.IsNotExist(err) {
+		err = os.MkdirAll(dir, 0755)
+		if err != nil {
+			panic(err)
+		}
+	}
+}
