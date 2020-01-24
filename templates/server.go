@@ -7,7 +7,7 @@ var DefaultMiddleware = `this.server.use(expressSanitizer());
 		this.server.use(bodyParser.urlencoded({ extended: true }));
 		this.server.use(cors());`
 
-func Server(middleware, routes string) []byte {
+func Server(name, middleware, routes string) []byte {
 	tmpl := `import * as express from "express";
 import * as mongoose from "mongoose";
 import * as bodyParser from "body-parser";
@@ -25,7 +25,7 @@ class Server {
 	}
 
 	private connectDb(): void {
-		const mongo = process.env.MONGO_URI;
+		const mongo = process.env.MONGO_URI || "mongodb://127.0.0.1:27017/%s";
 		mongoose.connect(mongo, {
 			useNewUrlParser: true,
 			useCreateIndex: true
@@ -45,5 +45,5 @@ class Server {
 
 export default new Server().server;`
 
-	return []byte(fmt.Sprintf(tmpl, middleware, routes))
+	return []byte(fmt.Sprintf(tmpl, name, middleware, routes))
 }
