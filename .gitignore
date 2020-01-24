@@ -19,7 +19,7 @@ nor
 *.sig
 
 pkg/
-src/
+# src/
 
 ### Go ###
 # Binaries for programs and plugins

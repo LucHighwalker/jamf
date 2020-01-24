@@ -5,6 +5,8 @@ import (
 	"os"
 
 	"github.com/urfave/cli"
+
+	"nor/initializer"
 )
 
 var app = cli.NewApp()
@@ -24,7 +26,7 @@ func commands() {
 			Aliases: []string{"i"},
 			Usage:   "Initialize a new NoR project.",
 			Action: func(c *cli.Context) error {
-				// initialize
+				initializer.Hello()
 				return nil
 			},
 		},
