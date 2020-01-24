@@ -3,10 +3,12 @@ package main
 import (
 	"log"
 	"os"
+	"path"
 	"strings"
 
 	"github.com/urfave/cli"
 
+	"nor/helper"
 	"nor/initializer"
 )
 
@@ -15,6 +17,13 @@ var norDir = strings.TrimRight(binDir, "/nor") + "/nor"
 var workDir, _ = os.Getwd()
 
 var nor = cli.NewApp()
+
+func clearTemp() {
+	tempPath := path.Join(norDir, "__temp__")
+
+	os.RemoveAll(tempPath)
+	helper.EnsureDirExists(tempPath)
+}
 
 func info() {
 	nor.Name = "Node on Rails"
@@ -75,6 +84,7 @@ func commands() {
 }
 
 func main() {
+	clearTemp()
 	info()
 	commands()
 	err := nor.Run(os.Args)
