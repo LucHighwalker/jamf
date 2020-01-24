@@ -3,30 +3,35 @@ package main
 import (
 	"log"
 	"os"
+	"strings"
 
 	"github.com/urfave/cli"
 
 	"nor/initializer"
 )
 
-var app = cli.NewApp()
+var binDir, _ = os.Executable()
+var norDir = strings.TrimRight(binDir, "/nor") + "/nor"
+var workDir, _ = os.Getwd()
+
+var nor = cli.NewApp()
 
 func info() {
-	app.Name = "Node on Rails"
-	app.Usage = "Like Ruby on Rails but NodeJS"
+	nor.Name = "Node on Rails"
+	nor.Usage = "Like Ruby on Rails but NodeJS"
 	author := cli.Author{Name: "Luc Highwalker", Email: "email@luc.gg"}
-	app.Authors = []*cli.Author{&author}
-	app.Version = "0.0.1"
+	nor.Authors = []*cli.Author{&author}
+	nor.Version = "0.0.1"
 }
 
 func commands() {
-	app.Commands = []*cli.Command{
+	nor.Commands = []*cli.Command{
 		{
 			Name:    "init",
 			Aliases: []string{"i"},
 			Usage:   "Initialize a new NoR project.",
 			Action: func(c *cli.Context) error {
-				initializer.Hello()
+				initializer.Initialize(norDir, workDir)
 				return nil
 			},
 		},
@@ -72,7 +77,7 @@ func commands() {
 func main() {
 	info()
 	commands()
-	err := app.Run(os.Args)
+	err := nor.Run(os.Args)
 	if err != nil {
 		log.Fatal(err)
 	}

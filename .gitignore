@@ -2,8 +2,9 @@
 # Created by https://www.gitignore.io/api/go,node,linux,macos,windows,visualstudio,visualstudiocode,archlinuxpackages
 # Edit at https://www.gitignore.io/?templates=go,node,linux,macos,windows,visualstudio,visualstudiocode,archlinuxpackages
 
-# Compiled
+# nor
 nor
+__temp__
 
 
 ### ArchLinuxPackages ###
