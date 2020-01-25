@@ -11,7 +11,31 @@ import (
 	"nor/templates"
 )
 
-func Initialize(nd, wd string, c *cli.Context) {
+func InitCommand(nd, wd string) *cli.Command {
+	return &cli.Command{
+		Name:    "init",
+		Aliases: []string{"i"},
+		Usage:   "Initialize a new NoR project.",
+		Flags: []cli.Flag{
+			&cli.IntFlag{
+				Name:  "defPort",
+				Value: 4200,
+				Usage: "Default port for server to run on.",
+			},
+			&cli.IntFlag{
+				Name:  "dbPort",
+				Value: 27017,
+				Usage: "Default port mongo runs on.",
+			},
+		},
+		Action: func(c *cli.Context) error {
+			initialize(nd, wd, c)
+			return nil
+		},
+	}
+}
+
+func initialize(nd, wd string, c *cli.Context) {
 	boilerPath := path.Join(nd, "boiler")
 	tempPath := path.Join(nd, "__temp__")
 

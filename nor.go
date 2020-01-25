@@ -35,27 +35,7 @@ func info() {
 
 func commands() {
 	nor.Commands = []*cli.Command{
-		{
-			Name:    "init",
-			Aliases: []string{"i"},
-			Usage:   "Initialize a new NoR project.",
-			Flags: []cli.Flag{
-				&cli.IntFlag{
-					Name:  "defPort",
-					Value: 4200,
-					Usage: "Default port for server to run on.",
-				},
-				&cli.IntFlag{
-					Name:  "dbPort",
-					Value: 27017,
-					Usage: "Default port mongo runs on.",
-				},
-			},
-			Action: func(c *cli.Context) error {
-				initializer.Initialize(norDir, workDir, c)
-				return nil
-			},
-		},
+		initializer.InitCommand(norDir, workDir),
 		{
 			Name:    "add",
 			Aliases: []string{"a"},

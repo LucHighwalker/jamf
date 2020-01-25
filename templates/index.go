@@ -3,7 +3,7 @@ package templates
 import "fmt"
 
 func Index(defaultPort int) []byte {
-	if defaultPort == -1 {
+	if defaultPort <= 0 {
 		defaultPort = 4200
 	}
 
@@ -19,7 +19,7 @@ server.listen(port, (error: Error) => {
 		return console.log(error);
 	}
 
-	return console.log(` + "`server is listening on ${port}`" + `);
+	return console.log(` + "`Server is listening on port: ${port}`" + `);
 });`
 
 	return []byte(fmt.Sprintf(tmpl, defaultPort))
