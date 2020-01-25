@@ -5,16 +5,23 @@ import (
 	"log"
 	"path"
 
+	"github.com/urfave/cli"
+
 	"nor/helper"
 	"nor/templates"
 )
 
-func Initialize(nd, wd string) {
+func Initialize(nd, wd string, c *cli.Context) {
 	boilerPath := path.Join(nd, "boiler")
 	tempPath := path.Join(nd, "__temp__")
 
+	name := c.Args().First()
+	if name == "" {
+		name = "norApp"
+	}
+
 	config(boilerPath, tempPath)
-	server(tempPath)
+	server(name, tempPath, c.Int("defPort"))
 }
 
 func config(bp, tp string) {
@@ -27,9 +34,9 @@ func config(bp, tp string) {
 	}
 }
 
-func server(tp string) {
-	index := templates.Index(4200)
-	server := templates.Server("test", templates.DefaultMiddleware, "")
+func server(name, tp string, dp int) {
+	index := templates.Index(dp)
+	server := templates.Server(name, templates.DefaultMiddleware, "")
 
 	srcPath := path.Join(tp, "src")
 	helper.EnsureDirExists(srcPath)
