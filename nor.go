@@ -10,6 +10,7 @@ import (
 
 	"nor/helper"
 	"nor/initializer"
+	"nor/modulator"
 )
 
 var binDir, _ = os.Executable()
@@ -36,15 +37,7 @@ func info() {
 func commands() {
 	nor.Commands = []*cli.Command{
 		initializer.InitCommand(norDir, workDir),
-		{
-			Name:    "add",
-			Aliases: []string{"a"},
-			Usage:   "Add an existing module.",
-			Action: func(c *cli.Context) error {
-				// add module
-				return nil
-			},
-		},
+		modulator.Command(workDir),
 		{
 			Name:    "controller",
 			Aliases: []string{"c"},
