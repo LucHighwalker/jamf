@@ -46,6 +46,8 @@ func initialize(nd, wd string, c *cli.Context) {
 
 	config(boilerPath, tempPath)
 	server(name, tempPath, c.Int("defPort"))
+
+	finalize(tempPath, wd, name)
 }
 
 func config(bp, tp string) {
@@ -67,4 +69,11 @@ func server(name, tp string, dp int) {
 
 	ioutil.WriteFile(path.Join(tp, "index.ts"), index, 0644)
 	ioutil.WriteFile(path.Join(srcPath, "server.ts"), server, 0644)
+}
+
+func finalize(tp, wd, name string) {
+	projPath := path.Join(wd, name)
+	helper.EnsureDirExists(projPath)
+
+	helper.CopyDir(tp, projPath)
 }

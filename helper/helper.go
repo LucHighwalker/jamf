@@ -43,7 +43,12 @@ func CopyDir(src, dst string) error {
 	}
 
 	for _, f := range files {
-		Copy(path.Join(src, f.Name()), path.Join(dst, f.Name()))
+		if f.IsDir() {
+			EnsureDirExists(path.Join(dst, f.Name()))
+			CopyDir(path.Join(src, f.Name()), path.Join(dst, f.Name()))
+		} else {
+			Copy(path.Join(src, f.Name()), path.Join(dst, f.Name()))
+		}
 	}
 	return nil
 }
