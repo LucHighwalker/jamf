@@ -57,7 +57,7 @@ func getRoutes(src string) string {
 func getImports(src string) string {
 	content := helper.GetContent(src)
 
-	re := regexp.MustCompile(`(?m:(import [* a-zA-Z";\-']+))`)
+	re := regexp.MustCompile(`(?m:(import [* a-zA-Z"./;\-']+))`)
 	matches := re.FindAllStringSubmatch(string(content), -1)
 	result := []string{}
 	for _, m := range matches {
@@ -67,7 +67,7 @@ func getImports(src string) string {
 }
 
 func isolateUse(str string) string {
-	re := regexp.MustCompile(`(?m:(this.server.use[(a-zA-Z."',){ };:]+))`)
+	re := regexp.MustCompile(`(?m:(this.server.use[(a-zA-Z./"',){ };:]+))`)
 	matches := re.FindAllStringSubmatch(str, -1)
 	result := []string{}
 	for _, m := range matches {
