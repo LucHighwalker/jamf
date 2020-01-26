@@ -2,17 +2,19 @@ package templates
 
 import "fmt"
 
+var DefaultImports = `import * as express from "express";
+import * as mongoose from "mongoose";
+import * as bodyParser from "body-parser";
+import * as cors from "cors";
+import * as expressSanitizer from 'express-sanitizer';`
+
 var DefaultMiddleware = `this.server.use(expressSanitizer());
 		this.server.use(bodyParser.json());
 		this.server.use(bodyParser.urlencoded({ extended: true }));
 		this.server.use(cors());`
 
-func Server(name, middleware, routes string) []byte {
-	tmpl := `import * as express from "express";
-import * as mongoose from "mongoose";
-import * as bodyParser from "body-parser";
-import * as cors from "cors";
-import * as expressSanitizer from 'express-sanitizer';
+func Server(imports, name, middleware, routes string) []byte {
+	tmpl := `%s
 
 class Server {
 	public server;
@@ -45,5 +47,5 @@ class Server {
 
 export default new Server().server;`
 
-	return []byte(fmt.Sprintf(tmpl, name, middleware, routes))
+	return []byte(fmt.Sprintf(tmpl, imports, name, middleware, routes))
 }

@@ -1,45 +1,43 @@
 package editor
 
 import (
-	"io/ioutil"
+	"fmt"
 	"path"
 	"regexp"
 	"strings"
+
+	"nor/helper"
 )
 
-func AddImport(wd, i string) string {
-	serverPath := path.Join(wd, "src", "server.ts")
-	imports := getImports(serverPath)
-	imports = imports + "\n" + i
+func AddImports(wd, i string) string {
+	server := path.Join(wd, "src", "server.ts")
+	imports := getImports(server)
+	if i != "" {
+		imports = fmt.Sprintf("%s\n%s", imports, i)
+	}
 	return imports
 }
 
-func AddMiddleware(wd, mw string) string {
-	serverPath := path.Join(wd, "src", "server.ts")
-	middleWare := getMiddleware(serverPath)
-	middleWare = middleWare + "\n\t\tthis.server.use(" + mw + ");"
+func AddMiddleware(wd, mn, mw string) string {
+	server := path.Join(wd, "src", "server.ts")
+	middleWare := getMiddleware(server)
+	if mw != "" {
+		middleWare = fmt.Sprintf("%s\n\t\tthis.server.use(%sController.%s);", middleWare, mn, mw)
+	}
 	return middleWare
 }
 
-func AddRoute(wd, r string) string {
-	serverPath := path.Join(wd, "src", "server.ts")
-	routes := getRoutes(serverPath)
-	routes = routes + "\n\t\tthis.server.use(" + r + ");"
+func AddRoute(wd, r, mn string) string {
+	server := path.Join(wd, "src", "server.ts")
+	routes := getRoutes(server)
+	if r != "" {
+		routes = fmt.Sprintf("%s\n\t\tthis.server.use(\"/%s\", %sRoutes)", routes, r, mn)
+	}
 	return routes
 }
 
-func getContent(src string) []byte {
-	content, err := ioutil.ReadFile(src)
-
-	if err != nil {
-		panic(err)
-	}
-
-	return content
-}
-
 func getMiddleware(src string) string {
-	content := getContent(src)
+	content := helper.GetContent(src)
 
 	re, _ := regexp.Compile("(private applyMiddleware\\(\\): void {[\\s\\S\\d]+)(private mountRoutes)")
 	match := re.Find(content)
@@ -48,7 +46,7 @@ func getMiddleware(src string) string {
 }
 
 func getRoutes(src string) string {
-	content := getContent(src)
+	content := helper.GetContent(src)
 
 	re, _ := regexp.Compile("(private mountRoutes\\(\\): void {[\\s\\S\\d]+)")
 	match := re.Find(content)
@@ -57,7 +55,7 @@ func getRoutes(src string) string {
 }
 
 func getImports(src string) string {
-	content := getContent(src)
+	content := helper.GetContent(src)
 
 	re := regexp.MustCompile(`(?m:(import [* a-zA-Z";\-']+))`)
 	matches := re.FindAllStringSubmatch(string(content), -1)

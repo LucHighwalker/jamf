@@ -62,7 +62,7 @@ func config(bp, tp string) {
 
 func server(name, tp string, dp int) {
 	index := templates.Index(dp)
-	server := templates.Server(name, templates.DefaultMiddleware, "")
+	server := templates.Server(templates.DefaultImports, name, templates.DefaultMiddleware, "")
 
 	srcPath := path.Join(tp, "src")
 	helper.EnsureDirExists(srcPath)

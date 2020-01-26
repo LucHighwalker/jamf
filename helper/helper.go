@@ -6,6 +6,7 @@ import (
 	"io/ioutil"
 	"os"
 	"path"
+	"strings"
 )
 
 // Copies a single file to destination.
@@ -46,7 +47,7 @@ func CopyDir(src, dst string) error {
 		if f.IsDir() {
 			EnsureDirExists(path.Join(dst, f.Name()))
 			CopyDir(path.Join(src, f.Name()), path.Join(dst, f.Name()))
-		} else {
+		} else if f.Name() != ".json" {
 			Copy(path.Join(src, f.Name()), path.Join(dst, f.Name()))
 		}
 	}
@@ -62,4 +63,25 @@ func EnsureDirExists(dir string) {
 			panic(err)
 		}
 	}
+}
+
+func Capitalize(s string) string {
+	return strings.Title(strings.ToLower(s))
+}
+
+func DoesDirExist(dir string) bool {
+	if _, err := os.Stat(dir); os.IsNotExist(err) {
+		return false
+	}
+	return true
+}
+
+func GetContent(src string) []byte {
+	content, err := ioutil.ReadFile(src)
+
+	if err != nil {
+		panic(err)
+	}
+
+	return content
 }

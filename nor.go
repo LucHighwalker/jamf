@@ -37,7 +37,7 @@ func info() {
 func commands() {
 	nor.Commands = []*cli.Command{
 		initializer.InitCommand(norDir, workDir),
-		modulator.Command(workDir),
+		modulator.Command(norDir, workDir),
 		{
 			Name:    "controller",
 			Aliases: []string{"c"},
