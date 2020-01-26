@@ -14,7 +14,7 @@ func Command(wd string) *cli.Command {
 		Aliases: []string{"a"},
 		Usage:   "Add an existing module.",
 		Action: func(c *cli.Context) error {
-			s := editor.AddRoute(wd, "HolyShit.ItWorks()")
+			s := editor.AddImport(wd, "import someshit from \"something\";")
 			fmt.Println(s)
 			return nil
 		},

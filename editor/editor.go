@@ -7,6 +7,13 @@ import (
 	"strings"
 )
 
+func AddImport(wd, i string) string {
+	serverPath := path.Join(wd, "src", "server.ts")
+	imports := getImports(serverPath)
+	imports = imports + "\n" + i
+	return imports
+}
+
 func AddMiddleware(wd, mw string) string {
 	serverPath := path.Join(wd, "src", "server.ts")
 	middleWare := getMiddleware(serverPath)
@@ -47,6 +54,18 @@ func getRoutes(src string) string {
 	match := re.Find(content)
 
 	return isolateUse(string(match))
+}
+
+func getImports(src string) string {
+	content := getContent(src)
+
+	re := regexp.MustCompile(`(?m:(import [* a-zA-Z";\-']+))`)
+	matches := re.FindAllStringSubmatch(string(content), -1)
+	result := []string{}
+	for _, m := range matches {
+		result = append(result, m[0])
+	}
+	return strings.Join(result, "\n")
 }
 
 func isolateUse(str string) string {
