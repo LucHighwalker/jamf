@@ -31,7 +31,7 @@ func AddRoute(wd, r, mn string) string {
 	server := path.Join(wd, "src", "server.ts")
 	routes := getRoutes(server)
 	if r != "" {
-		routes = fmt.Sprintf("%s\n\t\tthis.server.use(\"/%s\", %sRoutes)", routes, r, mn)
+		routes = fmt.Sprintf("%s\n\t\tthis.server.use(\"/%s\", %sRoutes);", routes, r, mn)
 	}
 	return routes
 }

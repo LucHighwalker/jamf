@@ -33,6 +33,12 @@ func Command(nd, wd string) *cli.Command {
 }
 
 func AddModule(nd, wd, module string) {
+	moduleDest := path.Join(wd, "src", module)
+	if helper.DoesDirExist(moduleDest) {
+		fmt.Printf("Module [%s] is already installed.\nAborting...\n", module)
+		return
+	}
+
 	boilerPath := path.Join(nd, "boiler")
 	tempPath := path.Join(nd, "__temp__")
 	modulePath := path.Join(boilerPath, "modules", module)
