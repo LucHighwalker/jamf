@@ -14,9 +14,8 @@ func Command(wd string) *cli.Command {
 		Aliases: []string{"a"},
 		Usage:   "Add an existing module.",
 		Action: func(c *cli.Context) error {
-			s := editor.AddMiddleware(wd, "HolyShit.ItWorks()")
+			s := editor.AddRoute(wd, "HolyShit.ItWorks()")
 			fmt.Println(s)
-			// editor.GetMiddleware(path.Join(norDir, "testingGround", "tryingmiddw", "src", "server.ts"))
 			return nil
 		},
 	}
