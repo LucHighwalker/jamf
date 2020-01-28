@@ -10,6 +10,7 @@ import (
 
 	"nor/helper"
 	"nor/initializer"
+	"nor/models"
 	"nor/modulator"
 )
 
@@ -47,15 +48,7 @@ func commands() {
 				return nil
 			},
 		},
-		{
-			Name:    "model",
-			Aliases: []string{"m"},
-			Usage:   "Generate a model.",
-			Action: func(c *cli.Context) error {
-				// Generate model
-				return nil
-			},
-		},
+		models.ModelsCommand(norDir, workDir),
 		{
 			Name:    "struct",
 			Aliases: []string{"s"},
