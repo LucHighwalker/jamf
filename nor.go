@@ -17,12 +17,11 @@ import (
 var binDir, _ = os.Executable()
 var norDir = strings.TrimRight(binDir, "/nor") + "/nor"
 var workDir, _ = os.Getwd()
+var tempPath = path.Join(norDir, "__temp__")
 
 var nor = cli.NewApp()
 
 func clearTemp() {
-	tempPath := path.Join(norDir, "__temp__")
-
 	os.RemoveAll(tempPath)
 	helper.EnsureDirExists(tempPath)
 }
@@ -48,7 +47,7 @@ func commands() {
 				return nil
 			},
 		},
-		models.ModelsCommand(norDir, workDir),
+		models.ModelsCommand(norDir, tempPath, workDir),
 		{
 			Name:    "struct",
 			Aliases: []string{"s"},
