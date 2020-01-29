@@ -13,29 +13,33 @@ import (
 	"nor/templates"
 )
 
+var tempPath string
+
 func ModelsCommand(nd, tp, wd string) *cli.Command {
 	return &cli.Command{
 		Name:    "model",
 		Aliases: []string{"m"},
 		Usage:   "Create a model.",
 		Action: func(c *cli.Context) error {
+			tempPath = tp
+
 			name := c.Args().First()
 			args := c.Args().Tail()
 
-			generateModel(tp, wd, name, args)
+			generateModel(wd, name, args)
 			return nil
 		},
 	}
 }
 
-func generateModel(tp, wd, name string, args []string) {
+func generateModel(wd, name string, args []string) {
 	fields, face := generateFields(args)
 
 	model := templates.Model(name, fields)
 	iface := templates.Interface(name, face)
 
-	modelsPath := path.Join(tp, "models")
-	interfacesPath := path.Join(tp, "interfaces")
+	modelsPath := path.Join(tempPath, "models")
+	interfacesPath := path.Join(tempPath, "interfaces")
 
 	helper.EnsureDirExists(modelsPath)
 	helper.EnsureDirExists(interfacesPath)
@@ -43,7 +47,7 @@ func generateModel(tp, wd, name string, args []string) {
 	ioutil.WriteFile(path.Join(modelsPath, fmt.Sprintf("%s.ts", name)), []byte(model), 0644)
 	ioutil.WriteFile(path.Join(interfacesPath, fmt.Sprintf("%s.ts", name)), []byte(iface), 0644)
 
-	helper.CopyDir(tp, path.Join(wd, "src"))
+	helper.CopyDir(tempPath, path.Join(wd, "src"))
 }
 
 func generateFields(args []string) (string, string) {

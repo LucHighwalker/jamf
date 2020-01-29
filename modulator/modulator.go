@@ -13,6 +13,8 @@ import (
 	"nor/templates"
 )
 
+var tempPath string
+
 type moduleConfig struct {
 	Imports      []string
 	Routes       string
@@ -20,19 +22,21 @@ type moduleConfig struct {
 	Dependencies []string
 }
 
-func Command(nd, wd string) *cli.Command {
+func Command(nd, tp, wd string) *cli.Command {
 	return &cli.Command{
 		Name:    "add",
 		Aliases: []string{"a"},
 		Usage:   "Add a module.",
 		Action: func(c *cli.Context) error {
-			AddModule(nd, wd, c.Args().First())
+			tempPath = tp
+
+			addModule(nd, wd, c.Args().First())
 			return nil
 		},
 	}
 }
 
-func AddModule(nd, wd, module string) {
+func addModule(nd, wd, module string) {
 	moduleDest := path.Join(wd, "src", module)
 	if helper.DoesDirExist(moduleDest) {
 		fmt.Printf("Module [%s] is already installed.\nAborting...\n", module)
@@ -40,7 +44,6 @@ func AddModule(nd, wd, module string) {
 	}
 
 	boilerPath := path.Join(nd, "boiler")
-	tempPath := path.Join(nd, "__temp__")
 	modulePath := path.Join(boilerPath, "modules", module)
 
 	name := path.Base(wd)
@@ -63,8 +66,8 @@ func AddModule(nd, wd, module string) {
 
 	fmt.Printf("Added module [%s]\n", module)
 	for _, d := range config.Dependencies {
-		fmt.Printf("[%s] reuires [%s]\nAdding [%s]\n", module, d, d)
-		AddModule(nd, wd, d)
+		fmt.Printf("[%s] reuires [%s]\n", module, d)
+		addModule(nd, wd, d)
 	}
 }
 

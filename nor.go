@@ -17,7 +17,7 @@ import (
 var binDir, _ = os.Executable()
 var norDir = strings.TrimRight(binDir, "/nor") + "/nor"
 var workDir, _ = os.Getwd()
-var tempPath = path.Join(norDir, "__temp__")
+var tempPath = path.Join("/tmp", "nor")
 
 var nor = cli.NewApp()
 
@@ -37,7 +37,7 @@ func info() {
 func commands() {
 	nor.Commands = []*cli.Command{
 		initializer.InitCommand(norDir, workDir),
-		modulator.Command(norDir, workDir),
+		modulator.Command(norDir, tempPath, workDir),
 		{
 			Name:    "controller",
 			Aliases: []string{"c"},
