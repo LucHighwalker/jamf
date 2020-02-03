@@ -1,8 +1,10 @@
 package main
 
 import (
+	"go/build"
 	"log"
 	"os"
+	"os/exec"
 	"path"
 	"strings"
 
@@ -13,6 +15,9 @@ import (
 	"nor/models"
 	"nor/modulator"
 )
+
+var gopath string
+var boilerPath string
 
 var binDir, _ = os.Executable()
 var norDir = strings.TrimRight(binDir, "/nor") + "/nor"
@@ -26,6 +31,29 @@ func clearTemp() {
 	helper.EnsureDirExists(tempPath)
 }
 
+func getGopath() {
+	gopath = os.Getenv("GOPATH")
+	if gopath == "" {
+		gopath = build.Default.GOPATH
+	}
+	boilerPath = path.Join(gopath, "bin", "norb")
+}
+
+func checkBoiler() {
+	exists := helper.DoesDirExist(boilerPath)
+	if !exists {
+		getBoiler()
+	}
+}
+
+func getBoiler() {
+	cmd := exec.Command("git", "clone", "https://github.com/LucHighwalker/norb.git", boilerPath)
+	err := cmd.Run()
+	if err != nil {
+		panic(err)
+	}
+}
+
 func info() {
 	nor.Name = "Node on Rails"
 	nor.Usage = "Like Ruby on Rails but NodeJS"
@@ -36,8 +64,8 @@ func info() {
 
 func commands() {
 	nor.Commands = []*cli.Command{
-		initializer.InitCommand(norDir, workDir),
-		modulator.Command(norDir, tempPath, workDir),
+		initializer.InitCommand(norDir, boilerPath, workDir),
+		modulator.Command(norDir, boilerPath, tempPath, workDir),
 		{
 			Name:    "controller",
 			Aliases: []string{"c"},
@@ -61,6 +89,8 @@ func commands() {
 }
 
 func main() {
+	getGopath()
+	checkBoiler()
 	clearTemp()
 	info()
 	commands()

@@ -2,7 +2,6 @@ package initializer
 
 import (
 	"io/ioutil"
-	"log"
 	"path"
 
 	"github.com/urfave/cli"
@@ -11,7 +10,7 @@ import (
 	"nor/templates"
 )
 
-func InitCommand(nd, wd string) *cli.Command {
+func InitCommand(nd, bp, wd string) *cli.Command {
 	return &cli.Command{
 		Name:    "init",
 		Aliases: []string{"i"},
@@ -29,14 +28,13 @@ func InitCommand(nd, wd string) *cli.Command {
 			},
 		},
 		Action: func(c *cli.Context) error {
-			initialize(nd, wd, c)
+			initialize(nd, bp, wd, c)
 			return nil
 		},
 	}
 }
 
-func initialize(nd, wd string, c *cli.Context) {
-	boilerPath := path.Join(nd, "boiler")
+func initialize(nd, bp, wd string, c *cli.Context) {
 	tempPath := path.Join(nd, "__temp__")
 
 	name := c.Args().First()
@@ -44,7 +42,7 @@ func initialize(nd, wd string, c *cli.Context) {
 		name = "norApp"
 	}
 
-	config(boilerPath, tempPath)
+	config(bp, tempPath)
 	server(name, tempPath, c.Int("defPort"))
 
 	finalize(tempPath, wd, name)
@@ -56,7 +54,7 @@ func config(bp, tp string) {
 	err := helper.CopyDir(configPath, tp)
 
 	if err != nil {
-		log.Fatal(err)
+		panic(err)
 	}
 }
 

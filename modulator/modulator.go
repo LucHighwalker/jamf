@@ -22,7 +22,7 @@ type moduleConfig struct {
 	Dependencies []string
 }
 
-func Command(nd, tp, wd string) *cli.Command {
+func Command(nd, bp, tp, wd string) *cli.Command {
 	return &cli.Command{
 		Name:    "add",
 		Aliases: []string{"a"},
@@ -30,21 +30,20 @@ func Command(nd, tp, wd string) *cli.Command {
 		Action: func(c *cli.Context) error {
 			tempPath = tp
 
-			addModule(nd, wd, c.Args().First())
+			addModule(nd, bp, wd, c.Args().First())
 			return nil
 		},
 	}
 }
 
-func addModule(nd, wd, module string) {
+func addModule(nd, bp, wd, module string) {
 	moduleDest := path.Join(wd, "src", module)
 	if helper.DoesDirExist(moduleDest) {
 		fmt.Printf("Module [%s] is already installed.\nAborting...\n", module)
 		return
 	}
 
-	boilerPath := path.Join(nd, "boiler")
-	modulePath := path.Join(boilerPath, "modules", module)
+	modulePath := path.Join(bp, "modules", module)
 
 	name := path.Base(wd)
 
@@ -67,7 +66,7 @@ func addModule(nd, wd, module string) {
 	fmt.Printf("Added module [%s]\n", module)
 	for _, d := range config.Dependencies {
 		fmt.Printf("[%s] reuires [%s]\n", module, d)
-		addModule(nd, wd, d)
+		addModule(nd, bp, wd, d)
 	}
 }
 
