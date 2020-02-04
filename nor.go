@@ -12,7 +12,7 @@ import (
 
 	"nor/helper"
 	"nor/initializer"
-	"nor/models"
+	"nor/modeler"
 	"nor/modulator"
 )
 
@@ -75,7 +75,7 @@ func commands() {
 				return nil
 			},
 		},
-		models.ModelsCommand(norDir, tempPath, workDir),
+		modeler.ModelsCommand(norDir, tempPath, workDir),
 		{
 			Name:    "struct",
 			Aliases: []string{"s"},
