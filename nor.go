@@ -1,12 +1,12 @@
 package main
 
 import (
+	"fmt"
 	"go/build"
 	"log"
 	"os"
 	"os/exec"
 	"path"
-	"strings"
 
 	"github.com/urfave/cli"
 
@@ -20,7 +20,8 @@ var gopath string
 var boilerPath string
 
 var binDir, _ = os.Executable()
-var norDir = strings.TrimRight(binDir, "/nor") + "/nor"
+
+// var norDir = strings.TrimRight(binDir, "/nor") + "/nor"
 var workDir, _ = os.Getwd()
 var tempPath = path.Join("/tmp", "nor")
 
@@ -63,9 +64,11 @@ func info() {
 }
 
 func commands() {
+	fmt.Println(binDir)
+
 	nor.Commands = []*cli.Command{
-		initializer.InitCommand(norDir, boilerPath, workDir),
-		modulator.Command(norDir, boilerPath, tempPath, workDir),
+		initializer.InitCommand(binDir, boilerPath, tempPath, workDir),
+		modulator.Command(binDir, boilerPath, tempPath, workDir),
 		{
 			Name:    "controller",
 			Aliases: []string{"c"},
@@ -75,7 +78,7 @@ func commands() {
 				return nil
 			},
 		},
-		modeler.ModelsCommand(norDir, tempPath, workDir),
+		modeler.ModelsCommand(binDir, tempPath, workDir),
 		{
 			Name:    "struct",
 			Aliases: []string{"s"},

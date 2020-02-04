@@ -10,7 +10,7 @@ import (
 	"nor/templates"
 )
 
-func InitCommand(nd, bp, wd string) *cli.Command {
+func InitCommand(nd, bp, tp, wd string) *cli.Command {
 	return &cli.Command{
 		Name:    "init",
 		Aliases: []string{"i"},
@@ -28,24 +28,22 @@ func InitCommand(nd, bp, wd string) *cli.Command {
 			},
 		},
 		Action: func(c *cli.Context) error {
-			initialize(nd, bp, wd, c)
+			initialize(nd, bp, tp, wd, c)
 			return nil
 		},
 	}
 }
 
-func initialize(nd, bp, wd string, c *cli.Context) {
-	tempPath := path.Join(nd, "__temp__")
-
+func initialize(nd, bp, tp, wd string, c *cli.Context) {
 	name := c.Args().First()
 	if name == "" {
 		name = "norApp"
 	}
 
-	config(bp, tempPath)
-	server(name, tempPath, c.Int("defPort"))
+	config(bp, tp)
+	server(name, tp, c.Int("defPort"))
 
-	finalize(tempPath, wd, name)
+	finalize(tp, wd, name)
 }
 
 func config(bp, tp string) {
