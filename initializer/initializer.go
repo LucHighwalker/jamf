@@ -10,7 +10,7 @@ import (
 	"nor/templates"
 )
 
-func InitCommand(nd, bp, tp, wd string) *cli.Command {
+func Command(nd, bp, tp, wd string) *cli.Command {
 	return &cli.Command{
 		Name:    "init",
 		Aliases: []string{"i"},

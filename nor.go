@@ -10,6 +10,7 @@ import (
 
 	"github.com/urfave/cli"
 
+	"nor/controllator"
 	"nor/helper"
 	"nor/initializer"
 	"nor/modeler"
@@ -67,18 +68,10 @@ func commands() {
 	fmt.Println(binDir)
 
 	nor.Commands = []*cli.Command{
-		initializer.InitCommand(binDir, boilerPath, tempPath, workDir),
+		initializer.Command(binDir, boilerPath, tempPath, workDir),
 		modulator.Command(binDir, boilerPath, tempPath, workDir),
-		{
-			Name:    "controller",
-			Aliases: []string{"c"},
-			Usage:   "Create a new controller.",
-			Action: func(c *cli.Context) error {
-				// generate controller
-				return nil
-			},
-		},
-		modeler.ModelsCommand(binDir, tempPath, workDir),
+		controllator.Command(binDir, workDir),
+		modeler.Command(binDir, tempPath, workDir),
 		{
 			Name:    "struct",
 			Aliases: []string{"s"},

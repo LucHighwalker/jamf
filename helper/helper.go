@@ -66,7 +66,7 @@ func EnsureDirExists(dir string) {
 }
 
 func Capitalize(s string) string {
-	return strings.Title(strings.ToLower(s))
+	return strings.Title(s)
 }
 
 func DoesDirExist(dir string) bool {

@@ -15,7 +15,7 @@ import (
 
 var tempPath string
 
-func ModelsCommand(nd, tp, wd string) *cli.Command {
+func Command(nd, tp, wd string) *cli.Command {
 	return &cli.Command{
 		Name:    "model",
 		Aliases: []string{"m"},
