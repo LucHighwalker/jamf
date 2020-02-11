@@ -12,19 +12,19 @@ import (
 	"nor/templates"
 )
 
-func Command(nd, wd string) *cli.Command {
+func Command(wd string) *cli.Command {
 	return &cli.Command{
 		Name:    "controller",
 		Aliases: []string{"c"},
 		Usage:   "Initialize a new controller.",
 		Action: func(c *cli.Context) error {
-			generateController(nd, wd, c)
+			generateController(wd, c)
 			return nil
 		},
 	}
 }
 
-func generateController(nd, wd string, c *cli.Context) {
+func generateController(wd string, c *cli.Context) {
 	name := c.Args().First()
 	actions, hasActions := generateActions(c.Args().Tail())
 
@@ -34,8 +34,6 @@ func generateController(nd, wd string, c *cli.Context) {
 
 	controller := templates.Controller(name, actions)
 	controllerPath := path.Join(wd, "src", name)
-
-	fmt.Println(controller)
 
 	helper.EnsureDirExists(controllerPath)
 	ioutil.WriteFile(path.Join(controllerPath, fmt.Sprintf("%s.controller.ts", name)), controller, 0644)
