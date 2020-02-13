@@ -70,7 +70,7 @@ func commands() {
 	nor.Commands = []*cli.Command{
 		initializer.Command(binDir, boilerPath, tempPath, workDir),
 		modulator.Command(binDir, boilerPath, tempPath, workDir),
-		controllator.Command(workDir),
+		controllator.Command(workDir, tempPath),
 		modeler.Command(binDir, tempPath, workDir),
 		{
 			Name:    "struct",

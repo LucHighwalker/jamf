@@ -8,27 +8,28 @@ import (
 
 	"github.com/urfave/cli"
 
+	"nor/editor"
 	"nor/helper"
 	"nor/templates"
 )
 
-func Command(wd string) *cli.Command {
+func Command(wd, tp string) *cli.Command {
 	return &cli.Command{
 		Name:    "controller",
 		Aliases: []string{"c"},
 		Usage:   "Initialize a new controller.",
 		Action: func(c *cli.Context) error {
-			generateController(wd, c)
+			generateController(wd, tp, c)
 			return nil
 		},
 	}
 }
 
-func generateController(wd string, c *cli.Context) {
+func generateController(wd, tp string, c *cli.Context) {
+	rootName := path.Base(wd)
+
 	name := c.Args().First()
 	actions, routes, hasActions := processArguments(name, c.Args().Tail())
-
-	fmt.Println(routes)
 
 	if hasActions {
 		actions = fmt.Sprintf("\n%s", actions)
@@ -37,11 +38,16 @@ func generateController(wd string, c *cli.Context) {
 	controller := templates.Controller(name, actions)
 	router := templates.Router(name, routes)
 
-	controllerPath := path.Join(wd, "src", name)
-
+	controllerPath := path.Join(tp, "src", name)
 	helper.EnsureDirExists(controllerPath)
+
 	ioutil.WriteFile(path.Join(controllerPath, fmt.Sprintf("%s.controller.ts", name)), controller, 0644)
 	ioutil.WriteFile(path.Join(controllerPath, fmt.Sprintf("%s.routes.ts", name)), router, 0644)
+
+	i := fmt.Sprintf("import %sRoutes from \"./%s/%s.routes", name, name, name)
+	editor.EditServer(wd, tp, rootName, i, name, "", name)
+
+	helper.CopyDir(tp, wd)
 }
 
 func processArguments(name string, arguments []string) (string, string, bool) {

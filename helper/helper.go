@@ -44,10 +44,12 @@ func CopyDir(src, dst string) error {
 	}
 
 	for _, f := range files {
+		fmt.Println(f.Name())
 		if f.IsDir() {
 			EnsureDirExists(path.Join(dst, f.Name()))
 			CopyDir(path.Join(src, f.Name()), path.Join(dst, f.Name()))
 		} else if f.Name() != ".json" {
+			fmt.Printf("copying %s to %s", path.Join(src, f.Name()), path.Join(dst, f.Name()))
 			Copy(path.Join(src, f.Name()), path.Join(dst, f.Name()))
 		}
 	}

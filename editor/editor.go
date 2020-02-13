@@ -2,12 +2,24 @@ package editor
 
 import (
 	"fmt"
+	"io/ioutil"
 	"path"
 	"regexp"
 	"strings"
 
 	"nor/helper"
+	"nor/templates"
 )
+
+func EditServer(wd, tp, name, i, mn, mw, r string) {
+	imports := AddImports(wd, i)
+	middleware := AddMiddleware(wd, mn, mw)
+	routes := AddRoute(wd, r, mn)
+
+	server := templates.Server(imports, name, middleware, routes)
+
+	ioutil.WriteFile(path.Join(tp, "src", "server.ts"), server, 0644)
+}
 
 func AddImports(wd, i string) string {
 	server := path.Join(wd, "src", "server.ts")
