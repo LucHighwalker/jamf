@@ -44,7 +44,7 @@ func generateController(wd, tp string, c *cli.Context) {
 	ioutil.WriteFile(path.Join(controllerPath, fmt.Sprintf("%s.controller.ts", name)), controller, 0644)
 	ioutil.WriteFile(path.Join(controllerPath, fmt.Sprintf("%s.routes.ts", name)), router, 0644)
 
-	i := fmt.Sprintf("import %sRoutes from \"./%s/%s.routes", name, name, name)
+	i := fmt.Sprintf("import %sRoutes from \"./%s/%s.routes\";", name, name, name)
 	editor.EditServer(wd, tp, rootName, i, name, "", name)
 
 	helper.CopyDir(tp, wd)
