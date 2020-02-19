@@ -60,11 +60,17 @@ func server(name, tp string, dp int) {
 	index := templates.Index(dp)
 	server := templates.Server(templates.DefaultImports, name, templates.DefaultMiddleware, "")
 
-	srcPath := path.Join(tp, "src")
-	helper.EnsureDirExists(srcPath)
-
+	helper.EnsureDirExists(path.Join(tp, "src"))
 	ioutil.WriteFile(path.Join(tp, "index.ts"), index, 0644)
-	ioutil.WriteFile(path.Join(srcPath, "server.ts"), server, 0644)
+	ioutil.WriteFile(path.Join(tp, "src", "server.ts"), server, 0644)
+}
+
+func dockerize(name, tp string, dp int) {
+	docker := templates.Dockerfile(dp)
+	dockerComp := templates.DockerCompose(name, dp)
+
+	ioutil.WriteFile(path.Join(tp, "Dockerfile"), docker, 0644)
+	ioutil.WriteFile(path.Join(tp, "docker-compose.yml"), dockerComp, 0644)
 }
 
 func finalize(tp, wd, name string) {
