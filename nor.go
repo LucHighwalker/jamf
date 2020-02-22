@@ -22,7 +22,6 @@ var boilerPath string
 
 var binDir, _ = os.Executable()
 
-// var norDir = strings.TrimRight(binDir, "/nor") + "/nor"
 var workDir, _ = os.Getwd()
 var tempPath = path.Join("/tmp", "nor")
 
