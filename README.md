@@ -4,7 +4,7 @@
 
 Jamf is just another mvc framework. Spawned by me wanting to automate a lot of the repetetive setup that I go through when creating projects. It's currently still very much a work in progress and thus very limited. 
 
-| Some limitations: |
+| :warning: Some limitations: |
 | --- |
 |   - Only supports NodeJs (typescript) |
 |   - Only supports MongoDb |
@@ -38,9 +38,14 @@ jamf model [model-name] [field-name]:[field-type]:[field-options]
 | validate{[regexp]} - Compares the field to the input regular expression. |
 
 ## Generate Controller
-nor c SomeController test:public:a=string:b=number another:private:a=number:b=date
 
 ```
-jamf controller [controller-name] [action-name]:[public || private]:[action-parameter]=[paramter-type]
+jamf controller [controller-name] [action-name]:[public || private]:[action-verb][action-parameter]=[paramter-type]
 ```
 
+| Action Options: |
+| --- |
+| public/private - public (default) creates a route, private does not |
+| action verb - the verb the route uses, ignored if private |
+| action parameter - the name of an input. |
+| parameter type - the type of the above parameter |
