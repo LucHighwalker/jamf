@@ -9,7 +9,7 @@ import (
 	"strings"
 )
 
-// Copies a single file to destination.
+// Copy - Copies a single file to destination.
 // https://opensource.com/article/18/6/copying-files-go
 func Copy(src, dst string) (int64, error) {
 	sourceFileStat, err := os.Stat(src)
@@ -36,7 +36,7 @@ func Copy(src, dst string) (int64, error) {
 	return nBytes, err
 }
 
-// Copies all files in a directory to destination.
+// CopyDir - Copies all files in a directory to destination.
 func CopyDir(src, dst string) error {
 	files, err := ioutil.ReadDir(src)
 	if err != nil {
@@ -44,19 +44,25 @@ func CopyDir(src, dst string) error {
 	}
 
 	for _, f := range files {
-		fmt.Println(f.Name())
 		if f.IsDir() {
 			EnsureDirExists(path.Join(dst, f.Name()))
 			CopyDir(path.Join(src, f.Name()), path.Join(dst, f.Name()))
 		} else if f.Name() != ".json" {
-			fmt.Printf("copying %s to %s", path.Join(src, f.Name()), path.Join(dst, f.Name()))
 			Copy(path.Join(src, f.Name()), path.Join(dst, f.Name()))
 		}
 	}
 	return nil
 }
 
-// Ensures the given directory exists, otherwise creates it.
+// DoesDirExist - Returns whether or not the directory exists.
+func DoesDirExist(dir string) bool {
+	if _, err := os.Stat(dir); os.IsNotExist(err) {
+		return false
+	}
+	return true
+}
+
+// EnsureDirExists - Creates directory if it doesn't exist.
 // https://siongui.github.io/2017/03/28/go-create-directory-if-not-exist/
 func EnsureDirExists(dir string) {
 	if _, err := os.Stat(dir); os.IsNotExist(err) {
@@ -67,17 +73,12 @@ func EnsureDirExists(dir string) {
 	}
 }
 
+// Capitalize - Capitalizes the first letter in the string.
 func Capitalize(s string) string {
 	return strings.Title(s)
 }
 
-func DoesDirExist(dir string) bool {
-	if _, err := os.Stat(dir); os.IsNotExist(err) {
-		return false
-	}
-	return true
-}
-
+// GetContent - Returns the bytes contained in a given file.
 func GetContent(src string) []byte {
 	content, err := ioutil.ReadFile(src)
 
