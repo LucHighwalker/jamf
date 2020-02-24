@@ -9,8 +9,8 @@ import (
 
 	"github.com/urfave/cli"
 
-	"nor/helper"
-	"nor/templates"
+	"jamf/helper"
+	"jamf/templates"
 )
 
 var tempPath string

@@ -3,7 +3,7 @@ package templates
 import (
 	"fmt"
 
-	"nor/helper"
+	"jamf/helper"
 )
 
 func Model(name, fields string) string {

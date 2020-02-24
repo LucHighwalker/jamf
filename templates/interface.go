@@ -1,8 +1,9 @@
 package templates
 
-import "fmt"
-
-import "nor/helper"
+import (
+	"fmt"
+	"jamf/helper"
+)
 
 func Interface(name, face string) string {
 	tmpl := `import { Document } from "mongoose";

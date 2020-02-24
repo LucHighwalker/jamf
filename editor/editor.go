@@ -7,8 +7,8 @@ import (
 	"regexp"
 	"strings"
 
-	"nor/helper"
-	"nor/templates"
+	"jamf/helper"
+	"jamf/templates"
 )
 
 func EditServer(wd, tp, name, i, mn, mw, r string) {

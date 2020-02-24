@@ -10,11 +10,11 @@ import (
 
 	"github.com/urfave/cli"
 
-	"nor/controllator"
-	"nor/helper"
-	"nor/initializer"
-	"nor/modeler"
-	"nor/modulator"
+	"jamf/controllator"
+	"jamf/helper"
+	"jamf/initializer"
+	"jamf/modeler"
+	"jamf/modulator"
 )
 
 var gopath string
@@ -23,9 +23,9 @@ var boilerPath string
 var binDir, _ = os.Executable()
 
 var workDir, _ = os.Getwd()
-var tempPath = path.Join("/tmp", "nor")
+var tempPath = path.Join("/tmp", "jamf")
 
-var nor = cli.NewApp()
+var jamf = cli.NewApp()
 
 func clearTemp() {
 	os.RemoveAll(tempPath)
@@ -56,17 +56,17 @@ func getBoiler() {
 }
 
 func info() {
-	nor.Name = "Node on Rails"
-	nor.Usage = "Like Ruby on Rails but NodeJS"
+	jamf.Name = "Just Another Mvc Framework"
+	jamf.Usage = "It's just that."
 	author := cli.Author{Name: "Luc Highwalker", Email: "email@luc.gg"}
-	nor.Authors = []*cli.Author{&author}
-	nor.Version = "0.0.1"
+	jamf.Authors = []*cli.Author{&author}
+	jamf.Version = "0.0.1"
 }
 
 func commands() {
 	fmt.Println(binDir)
 
-	nor.Commands = []*cli.Command{
+	jamf.Commands = []*cli.Command{
 		initializer.Command(binDir, boilerPath, tempPath, workDir),
 		modulator.Command(binDir, boilerPath, tempPath, workDir),
 		controllator.Command(workDir, tempPath),
@@ -89,7 +89,7 @@ func main() {
 	clearTemp()
 	info()
 	commands()
-	err := nor.Run(os.Args)
+	err := jamf.Run(os.Args)
 	if err != nil {
 		log.Fatal(err)
 	}

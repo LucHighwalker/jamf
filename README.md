@@ -1,4 +1,4 @@
-[![Go Report Card](https://goreportcard.com/badge/github.com/LucHighwalker/nor)](https://goreportcard.com/report/github.com/LucHighwalker/nor)
+[![Go Report Card](https://goreportcard.com/badge/github.com/LucHighwalker/jamf)](https://goreportcard.com/report/github.com/LucHighwalker/jamf)
 
 # JAMF - Just Another Mvc Framework
 

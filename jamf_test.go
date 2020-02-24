@@ -38,14 +38,14 @@ func TestGetBoiler(t *testing.T) {
 
 func TestInfo(t *testing.T) {
 	info()
-	if nor.Name != "Node on Rails" {
-		t.Errorf("nor.Name is false. Got: [%s]", nor.Name)
+	if jamf.Name != "Node on Rails" {
+		t.Errorf("jamf.Name is false. Got: [%s]", jamf.Name)
 	}
 }
 
 func TestCommands(t *testing.T) {
 	commands()
-	if len(nor.Commands) == 0 {
+	if len(jamf.Commands) == 0 {
 		t.Error("Commands did not initialize.")
 	}
 }

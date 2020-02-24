@@ -2,7 +2,7 @@ package templates
 
 import (
 	"fmt"
-	"nor/helper"
+	"jamf/helper"
 	"strings"
 )
 

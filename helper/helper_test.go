@@ -8,10 +8,10 @@ import (
 )
 
 func TestCopy(t *testing.T) {
-	os.RemoveAll("/tmp/nor_test")
+	os.RemoveAll("/tmp/jamf_test")
 
-	src := "/tmp/nor_test/something"
-	dest := "/tmp/nor_test/something_copied"
+	src := "/tmp/jamf_test/something"
+	dest := "/tmp/jamf_test/something_copied"
 
 	os.MkdirAll(src, 0755)
 	os.MkdirAll(dest, 0755)
@@ -36,10 +36,10 @@ func TestCopy(t *testing.T) {
 }
 
 func TestCopyDir(t *testing.T) {
-	os.RemoveAll("/tmp/nor_test")
+	os.RemoveAll("/tmp/jamf_test")
 
-	src := "/tmp/nor_test/something"
-	dest := "/tmp/nor_test/something_copied"
+	src := "/tmp/jamf_test/something"
+	dest := "/tmp/jamf_test/something_copied"
 
 	os.MkdirAll(src, 0755)
 	os.MkdirAll(dest, 0755)
@@ -66,27 +66,27 @@ func TestCopyDir(t *testing.T) {
 }
 
 func TestDoesDirExist(t *testing.T) {
-	os.RemoveAll("/tmp/nor_test")
+	os.RemoveAll("/tmp/jamf_test")
 
-	os.MkdirAll("/tmp/nor_test", 0755)
+	os.MkdirAll("/tmp/jamf_test", 0755)
 
-	if DoesDirExist("/tmp/nor_test/some_dir") == true {
+	if DoesDirExist("/tmp/jamf_test/some_dir") == true {
 		t.Error("False positive.")
 	}
 
-	os.MkdirAll("/tmp/nor_test/some_dir", 0755)
+	os.MkdirAll("/tmp/jamf_test/some_dir", 0755)
 
-	if DoesDirExist("/tmp/nor_test/some_dir") == false {
+	if DoesDirExist("/tmp/jamf_test/some_dir") == false {
 		t.Error("False negative.")
 	}
 }
 
 func TestEnsureDirExists(t *testing.T) {
-	os.RemoveAll("/tmp/nor_test")
+	os.RemoveAll("/tmp/jamf_test")
 
-	EnsureDirExists("/tmp/nor_test/should_exist")
+	EnsureDirExists("/tmp/jamf_test/should_exist")
 
-	stat, err := os.Stat("/tmp/nor_test/should_exist")
+	stat, err := os.Stat("/tmp/jamf_test/should_exist")
 
 	if err != nil {
 		t.Errorf("Error ensuring directory existence: %s", err.Error())
@@ -104,9 +104,9 @@ func TestCapitalize(t *testing.T) {
 }
 
 func TestGetContent(t *testing.T) {
-	os.RemoveAll("/tmp/nor_test")
+	os.RemoveAll("/tmp/jamf_test")
 
-	src := "/tmp/nor_test/something"
+	src := "/tmp/jamf_test/something"
 
 	os.MkdirAll(src, 0755)
 

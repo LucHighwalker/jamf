@@ -6,15 +6,15 @@ import (
 
 	"github.com/urfave/cli"
 
-	"nor/helper"
-	"nor/templates"
+	"jamf/helper"
+	"jamf/templates"
 )
 
 func Command(nd, bp, tp, wd string) *cli.Command {
 	return &cli.Command{
 		Name:    "init",
 		Aliases: []string{"i"},
-		Usage:   "Initialize a new NoR project.",
+		Usage:   "Initialize a new jamf project.",
 		Flags: []cli.Flag{
 			&cli.IntFlag{
 				Name:  "defPort",
@@ -37,7 +37,7 @@ func Command(nd, bp, tp, wd string) *cli.Command {
 func initialize(nd, bp, tp, wd string, c *cli.Context) {
 	name := c.Args().First()
 	if name == "" {
-		name = "norApp"
+		name = "jamfApp"
 	}
 
 	config(bp, tp)
