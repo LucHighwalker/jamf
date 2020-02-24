@@ -2,6 +2,7 @@ package templates
 
 import "fmt"
 
+// Dockerfile - Main Dockerfile template
 func Dockerfile(port int) []byte {
 	tmpl := `FROM node:11
 ARG ENVIRONMENT
@@ -20,13 +21,14 @@ ADD https://github.com/ufoscout/docker-compose-wait/releases/download/2.2.1/wait
 RUN chmod +x /wait
 RUN chmod +x ./node.sh
 
-EXPOSE %s
+EXPOSE %d
 
 CMD /wait && ./node.sh`
 
 	return []byte(fmt.Sprintf(tmpl, port))
 }
 
+// DockerCompose - Main DockerCompose template.
 func DockerCompose(name string, port int) []byte {
 	tmpl := `version: "2"
 services:
@@ -90,6 +92,7 @@ volumes:
 	return []byte(fmt.Sprintf(tmpl, name, name, port, port, port, name, name, name, name, name))
 }
 
+// DockerComposeOverride - Template for docker compose override.
 func DockerComposeOverride(name string, port int) []byte {
 	tmpl := `version: "2"
 services:

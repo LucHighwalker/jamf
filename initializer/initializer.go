@@ -41,6 +41,7 @@ func initialize(nd, bp, tp, wd string, c *cli.Context) {
 	}
 
 	config(bp, tp)
+	dockerize(name, tp, 4200)
 	server(name, tp, c.Int("defPort"))
 
 	finalize(tp, wd, name)
@@ -68,9 +69,11 @@ func server(name, tp string, dp int) {
 func dockerize(name, tp string, dp int) {
 	docker := templates.Dockerfile(dp)
 	dockerComp := templates.DockerCompose(name, dp)
+	dockerCompO := templates.DockerComposeOverride(name, 4200)
 
 	ioutil.WriteFile(path.Join(tp, "Dockerfile"), docker, 0644)
 	ioutil.WriteFile(path.Join(tp, "docker-compose.yml"), dockerComp, 0644)
+	ioutil.WriteFile(path.Join(tp, "docker-compose.override.yml.example"), dockerCompO, 0644)
 }
 
 func finalize(tp, wd, name string) {

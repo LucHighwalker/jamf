@@ -35,7 +35,7 @@ func generateController(wd, tp string, c *cli.Context) {
 		actions = fmt.Sprintf("\n%s", actions)
 	}
 
-	controller := templates.Controller(name, actions)
+	controller := templates.Controller("", name, actions)
 	router := templates.Router(name, routes)
 
 	controllerPath := path.Join(tp, "src", name)
