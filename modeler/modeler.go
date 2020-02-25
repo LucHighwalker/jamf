@@ -15,6 +15,7 @@ import (
 
 var tempPath string
 
+// Command - Command for this module.
 func Command(nd, tp, wd string) *cli.Command {
 	return &cli.Command{
 		Name:    "model",

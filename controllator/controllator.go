@@ -13,11 +13,19 @@ import (
 	"jamf/templates"
 )
 
+// Command - Command for this module.
 func Command(wd, tp string) *cli.Command {
 	return &cli.Command{
 		Name:    "controller",
 		Aliases: []string{"c"},
 		Usage:   "Initialize a new controller.",
+		Flags: []cli.Flag{
+			&cli.StringFlag{
+				Name:  "model",
+				Value: "",
+				Usage: "The model associated with this controller.",
+			},
+		},
 		Action: func(c *cli.Context) error {
 			generateController(wd, tp, c)
 			return nil
@@ -30,12 +38,16 @@ func generateController(wd, tp string, c *cli.Context) {
 
 	name := c.Args().First()
 	actions, routes, hasActions := processArguments(name, c.Args().Tail())
+	model := c.String("model")
 
 	if hasActions {
 		actions = fmt.Sprintf("\n%s", actions)
 	}
+	if model != "" {
+		actions = fmt.Sprintf("%s\n%s", actions, templates.Crud(model))
+	}
 
-	controller := templates.Controller("", name, actions)
+	controller := templates.Controller(model, name, actions)
 	router := templates.Router(name, routes)
 
 	controllerPath := path.Join(tp, "src", name)

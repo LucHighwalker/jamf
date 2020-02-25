@@ -22,6 +22,7 @@ type moduleConfig struct {
 	Dependencies []string
 }
 
+// Command - Command for this module.
 func Command(nd, bp, tp, wd string) *cli.Command {
 	return &cli.Command{
 		Name:    "add",

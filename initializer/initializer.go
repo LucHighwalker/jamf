@@ -10,6 +10,7 @@ import (
 	"jamf/templates"
 )
 
+// Command - Command for this module.
 func Command(nd, bp, tp, wd string) *cli.Command {
 	return &cli.Command{
 		Name:    "init",
