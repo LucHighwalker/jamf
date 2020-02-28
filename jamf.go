@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"go/build"
 	"log"
 	"os"
@@ -37,7 +36,7 @@ func getGopath() {
 	if gopath == "" {
 		gopath = build.Default.GOPATH
 	}
-	boilerPath = path.Join(gopath, "bin", "norb")
+	boilerPath = path.Join(gopath, "bin", "jamfb")
 }
 
 func checkBoiler() {
@@ -64,8 +63,6 @@ func info() {
 }
 
 func commands() {
-	fmt.Println(binDir)
-
 	jamf.Commands = []*cli.Command{
 		initializer.Command(binDir, boilerPath, tempPath, workDir),
 		modulator.Command(binDir, boilerPath, tempPath, workDir),

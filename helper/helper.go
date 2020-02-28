@@ -31,6 +31,7 @@ func Copy(src, dst string) (int64, error) {
 	if err != nil {
 		return 0, err
 	}
+
 	defer destination.Close()
 	nBytes, err := io.Copy(destination, source)
 	return nBytes, err
@@ -43,12 +44,20 @@ func CopyDir(src, dst string) error {
 		return err
 	}
 
+	EnsureDirExists(dst)
+
 	for _, f := range files {
 		if f.IsDir() {
 			EnsureDirExists(path.Join(dst, f.Name()))
-			CopyDir(path.Join(src, f.Name()), path.Join(dst, f.Name()))
+			err := CopyDir(path.Join(src, f.Name()), path.Join(dst, f.Name()))
+			if err != nil {
+				return err
+			}
 		} else if f.Name() != ".json" {
-			Copy(path.Join(src, f.Name()), path.Join(dst, f.Name()))
+			_, err := Copy(path.Join(src, f.Name()), path.Join(dst, f.Name()))
+			if err != nil {
+				return err
+			}
 		}
 	}
 	return nil
@@ -65,8 +74,8 @@ func DoesDirExist(dir string) bool {
 // EnsureDirExists - Creates directory if it doesn't exist.
 // https://siongui.github.io/2017/03/28/go-create-directory-if-not-exist/
 func EnsureDirExists(dir string) {
-	if _, err := os.Stat(dir); os.IsNotExist(err) {
-		err = os.MkdirAll(dir, 0755)
+	if !DoesDirExist(dir) {
+		err := os.MkdirAll(dir, 0755)
 		if err != nil {
 			panic(err)
 		}

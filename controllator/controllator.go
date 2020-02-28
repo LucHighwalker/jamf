@@ -59,7 +59,10 @@ func generateController(wd, tp string, c *cli.Context) {
 	i := fmt.Sprintf("import %sRoutes from \"./%s/%s.routes\";", name, name, name)
 	editor.EditServer(wd, tp, rootName, i, name, "", name)
 
-	helper.CopyDir(tp, wd)
+	err := helper.CopyDir(tp, wd)
+	if err != nil {
+		panic(err)
+	}
 }
 
 func processArguments(name string, arguments []string) (string, string, bool) {

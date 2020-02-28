@@ -48,7 +48,10 @@ func generateModel(wd, name string, args []string) {
 	ioutil.WriteFile(path.Join(modelsPath, fmt.Sprintf("%s.ts", name)), []byte(model), 0644)
 	ioutil.WriteFile(path.Join(interfacesPath, fmt.Sprintf("%s.ts", name)), []byte(iface), 0644)
 
-	helper.CopyDir(tempPath, path.Join(wd, "src"))
+	err := helper.CopyDir(tempPath, path.Join(wd, "src"))
+	if err != nil {
+		panic(err)
+	}
 }
 
 func generateFields(args []string) (string, string) {

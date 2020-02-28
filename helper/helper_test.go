@@ -10,15 +10,15 @@ import (
 func TestCopy(t *testing.T) {
 	os.RemoveAll("/tmp/jamf_test")
 
-	src := "/tmp/jamf_test/something"
-	dest := "/tmp/jamf_test/something_copied"
+	src := "/tmp/jamf_test/helper"
+	dest := "/tmp/jamf_test/helper_copied"
 
 	os.MkdirAll(src, 0755)
 	os.MkdirAll(dest, 0755)
 
-	ioutil.WriteFile(path.Join(src, "something.txt"), []byte("some data"), 0644)
+	ioutil.WriteFile(path.Join(src, "helper.txt"), []byte("some data"), 0644)
 
-	_, err := Copy(path.Join(src, "something.txt"), path.Join(dest, "something.txt"))
+	_, err := Copy(path.Join(src, "helper.txt"), path.Join(dest, "helper.txt"))
 
 	if err != nil {
 		t.Errorf("Error while Copying file: %s", err.Error())
@@ -30,7 +30,7 @@ func TestCopy(t *testing.T) {
 		t.Errorf("Error while reading destination: %s", err.Error())
 	}
 
-	if len(dir) == 0 || dir[0].Name() != "something.txt" {
+	if len(dir) == 0 || dir[0].Name() != "helper.txt" {
 		t.Error("Failed to copy file.")
 	}
 }
@@ -38,15 +38,15 @@ func TestCopy(t *testing.T) {
 func TestCopyDir(t *testing.T) {
 	os.RemoveAll("/tmp/jamf_test")
 
-	src := "/tmp/jamf_test/something"
-	dest := "/tmp/jamf_test/something_copied"
+	src := "/tmp/jamf_test/helper"
+	dest := "/tmp/jamf_test/helper_copied"
 
 	os.MkdirAll(src, 0755)
 	os.MkdirAll(dest, 0755)
 
-	ioutil.WriteFile(path.Join(src, "something.txt"), []byte("some data"), 0644)
-	ioutil.WriteFile(path.Join(src, "somethingElse.txt"), []byte("some other data"), 0644)
-	ioutil.WriteFile(path.Join(src, "somethingMore.txt"), []byte("some more data"), 0644)
+	ioutil.WriteFile(path.Join(src, "helper.txt"), []byte("some data"), 0644)
+	ioutil.WriteFile(path.Join(src, "helperElse.txt"), []byte("some other data"), 0644)
+	ioutil.WriteFile(path.Join(src, "helperMore.txt"), []byte("some more data"), 0644)
 
 	err := CopyDir(src, dest)
 
@@ -106,13 +106,13 @@ func TestCapitalize(t *testing.T) {
 func TestGetContent(t *testing.T) {
 	os.RemoveAll("/tmp/jamf_test")
 
-	src := "/tmp/jamf_test/something"
+	src := "/tmp/jamf_test/helper"
 
 	os.MkdirAll(src, 0755)
 
-	ioutil.WriteFile(path.Join(src, "something.txt"), []byte("some data"), 0644)
+	ioutil.WriteFile(path.Join(src, "helper.txt"), []byte("some data"), 0644)
 
-	if GetContent(path.Join(src, "something.txt")) == nil {
+	if GetContent(path.Join(src, "helper.txt")) == nil {
 		t.Error("Failed to get content.")
 	}
 }

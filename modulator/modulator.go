@@ -57,12 +57,18 @@ func addModule(nd, bp, wd, module string) {
 	jsonContent := helper.GetContent(path.Join(modulePath, ".json"))
 	json.Unmarshal(jsonContent, &config)
 
-	helper.CopyDir(modulePath, tempPath)
+	err := helper.CopyDir(modulePath, tempPath)
+	if err != nil {
+		panic(err)
+	}
 
 	imports := generateImports(config.Imports, module)
 	generateServer(tempPath, wd, module, imports, config.Middleware, config.Routes, name)
 
-	helper.CopyDir(tempPath, path.Join(wd, "src"))
+	err = helper.CopyDir(tempPath, path.Join(wd, "src"))
+	if err != nil {
+		panic(err)
+	}
 
 	fmt.Printf("Added module [%s]\n", module)
 	for _, d := range config.Dependencies {

@@ -38,7 +38,7 @@ func TestGetBoiler(t *testing.T) {
 
 func TestInfo(t *testing.T) {
 	info()
-	if jamf.Name != "Node on Rails" {
+	if jamf.Name != "Just Another Mvc Framework" {
 		t.Errorf("jamf.Name is false. Got: [%s]", jamf.Name)
 	}
 }

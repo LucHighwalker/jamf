@@ -29,21 +29,21 @@ func Command(nd, bp, tp, wd string) *cli.Command {
 			},
 		},
 		Action: func(c *cli.Context) error {
-			initialize(nd, bp, tp, wd, c)
+			name := c.Args().First()
+			initialize(name, bp, tp, wd, c.Int("defPort"))
 			return nil
 		},
 	}
 }
 
-func initialize(nd, bp, tp, wd string, c *cli.Context) {
-	name := c.Args().First()
+func initialize(name, bp, tp, wd string, dp int) {
 	if name == "" {
 		name = "jamfApp"
 	}
 
 	config(bp, tp)
-	dockerize(name, tp, 4200)
-	server(name, tp, c.Int("defPort"))
+	dockerize(name, tp, dp)
+	server(name, tp, dp)
 
 	finalize(tp, wd, name)
 }
@@ -81,5 +81,8 @@ func finalize(tp, wd, name string) {
 	projPath := path.Join(wd, name)
 	helper.EnsureDirExists(projPath)
 
-	helper.CopyDir(tp, projPath)
+	err := helper.CopyDir(tp, projPath)
+	if err != nil {
+		panic(err)
+	}
 }
